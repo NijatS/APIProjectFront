@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">CreatedDate</th>
+          </tr>
+        </thead>
+        <tbody id="categoryTable"></tbody>
+      </table>
+    </div>
+  </body>
+</html>
+<script>
+  const tbody = document.getElementById("categoryTable");
+  console.log(tbody);
+  let endpoint = "https://localhost:7244/api/Category";
+  fetch(endpoint)
+    .then((x) => x.json())
+    .then((categories) => {
+      categories.items.forEach((category) => {
+        const tr = document.createElement("tr");
+        console.log(category);
+        tr.innerHTML = `<td scope='row'>${category.id}</td>
+        <td>${category.name}</td>
+        <td>${category.createdAt}</td>`;
+        tbody.append(tr);
+      });
+    });
+</script>
