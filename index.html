@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <style>
+      .card_container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">CreatedDate</th>
+          </tr>
+        </thead>
+        <tbody id="categoryTable"></tbody>
+      </table>
+    </div>
+    <div class="container card_container"></div>
+  </body>
+</html>
+<script>
+  const tbody = document.getElementById("categoryTable");
+  let endpoint = "https://localhost:7244/api/Category";
+  fetch(endpoint)
+    .then((x) => x.json())
+    .then((categories) => {
+      categories.items.forEach((category) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td scope='row'>${category.id}</td>
+        <td>${category.name}</td>
+        <td>${category.createdAt}</td>`;
+        tbody.append(tr);
+      });
+    });
+  const cardContainer = document.querySelector(".card_container");
+  let endpointBook = "https://localhost:7244/api/Book";
+  fetch(endpointBook)
+    .then((x) => x.json())
+    .then((books) => {
+      books.items.forEach((book) => {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.style.width = "18rem";
+        console.log(book);
+        div.innerHTML = `<img class="card-img-top" src="${book.imageUrl}" alt="Card image cap" />
+        <div class="card-body">
+          <h5 class="card-title">${book.name}</h5>
+          <p class="card-text">
+            Author:${book.author}<br>
+            Category ID: ${book.categoryId}
+          </p>
+          <a href="#" class="btn btn-primary">Price: $${book.price}</a>
+        </div>`;
+        cardContainer.append(div);
+      });
+    });
+</script>
